@@ -1,4 +1,4 @@
-package jp.co.broadcom.tanzu.springenterpriseproxy.restapi;
+package jp.co.broadcom.tanzu.springenterpriseproxy;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

@@ -1,5 +1,6 @@
 package jp.co.broadcom.tanzu.springenterpriseproxy.restapi;
 
+import jp.co.broadcom.tanzu.springenterpriseproxy.SpringEnterpriseProxyProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

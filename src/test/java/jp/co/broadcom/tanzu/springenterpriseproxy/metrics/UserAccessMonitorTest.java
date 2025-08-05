@@ -3,6 +3,7 @@ package jp.co.broadcom.tanzu.springenterpriseproxy.metrics;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+import jp.co.broadcom.tanzu.springenterpriseproxy.metrics.UserAccess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

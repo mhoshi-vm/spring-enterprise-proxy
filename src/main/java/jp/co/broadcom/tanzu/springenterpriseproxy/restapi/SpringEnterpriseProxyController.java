@@ -46,7 +46,7 @@ class SpringEnterpriseProxyController {
 	 * artifactPath = "/org/springframework/spring-core/6.1.6/spring-core-6.1.6.jar"
 	 */
 	@GetMapping("{*artifactPath}")
-	public ResponseEntity<Resource> proxyMavenArtifact(@PathVariable String artifactPath,
+	ResponseEntity<Resource> proxyMavenArtifact(@PathVariable String artifactPath,
 			@AuthenticationPrincipal Jwt jwt) {
 		if (jwt != null) {
 			Instant expiration = jwt.getExpiresAt();

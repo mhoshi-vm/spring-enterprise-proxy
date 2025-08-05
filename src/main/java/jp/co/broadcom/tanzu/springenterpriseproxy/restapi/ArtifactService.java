@@ -1,5 +1,6 @@
 package jp.co.broadcom.tanzu.springenterpriseproxy.restapi;
 
+import jp.co.broadcom.tanzu.springenterpriseproxy.SpringEnterpriseProxyProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
