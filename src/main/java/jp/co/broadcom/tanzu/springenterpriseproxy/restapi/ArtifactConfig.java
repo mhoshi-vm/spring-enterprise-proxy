@@ -14,7 +14,7 @@ class ArtifactConfig {
 
 		return (artifact) -> {
 			if (artifact.id() == null) {
-				artifact = new Artifact(UUID.nameUUIDFromBytes(artifact.path().getBytes()), artifact.path(),
+				artifact = new Artifact(UUID.nameUUIDFromBytes(artifact.path().getBytes()).toString(), artifact.path(),
 						artifact.content(), artifact.contentType(), artifact.lastModified());
 			}
 			return artifact;

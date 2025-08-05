@@ -1,9 +1,11 @@
 package jp.co.broadcom.tanzu.springenterpriseproxy.restapi;
 
+import jp.co.broadcom.tanzu.springenterpriseproxy.TestcontainersConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.relational.core.conversion.DbActionExecutionException;
 
@@ -15,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJdbcTest
-@Import({ArtifactConfig.class, ArtifactRepositoryTestConfig.class})
-class ArtifactRepositoryTest {
+@Import({ArtifactConfig.class, TestcontainersConfiguration.class, ArtifactRepositoryTestConfig.class})
+class ArtifactRepositoryTestConatinersTest {
 
 	private final String ARTIFACT_PATH = "/com/example/lib/2.0/lib-2.0.jar";
 
@@ -27,18 +29,18 @@ class ArtifactRepositoryTest {
 	@Autowired
 	private ArtifactRepository artifactRepository;
 
-	private Artifact testArtifact;
+	private Artifact artifact;
 
 	@BeforeEach
 	void setUp() {
 
-		testArtifact = new Artifact(ARTIFACT_PATH, ARTIFACT_CONTENT, CONTENT_TYPE, LocalDateTime.now());
+		artifact = new Artifact(ARTIFACT_PATH, ARTIFACT_CONTENT, CONTENT_TYPE, LocalDateTime.now());
 	}
 
 	@Test
 	void testSaveAndFindArtifact() {
 		// Save the artifact
-		artifactRepository.save(testArtifact);
+		artifactRepository.save(artifact);
 
 		// Find it by ID
 		Optional<Artifact> foundArtifact = artifactRepository
@@ -53,7 +55,7 @@ class ArtifactRepositoryTest {
 	@Test
 	void testFindByPath() {
 		// Save the artifact
-		artifactRepository.save(testArtifact);
+		artifactRepository.save(artifact);
 
 		// Find by path
 		Optional<Artifact> foundArtifact = artifactRepository.findByPath(ARTIFACT_PATH);
@@ -72,7 +74,7 @@ class ArtifactRepositoryTest {
 	@Test
 	void testSaveDuplicatePath_ThrowsException() {
 		// Save the first artifact
-		artifactRepository.save(testArtifact);
+		artifactRepository.save(artifact);
 
 		// Try to save another artifact with the same path
 		Artifact duplicateArtifact = new Artifact(ARTIFACT_PATH, "different-content".getBytes(), "text/plain",
@@ -84,7 +86,7 @@ class ArtifactRepositoryTest {
 	@Test
 	void testSaveDuplicatePath_update() {
 		// Save the first artifact
-		artifactRepository.save(testArtifact);
+		artifactRepository.save(artifact);
 
 		// Save another artifact with the same path but with id
 		Artifact duplicateArtifact = new Artifact(UUID.nameUUIDFromBytes(ARTIFACT_PATH.getBytes()).toString(), ARTIFACT_PATH,

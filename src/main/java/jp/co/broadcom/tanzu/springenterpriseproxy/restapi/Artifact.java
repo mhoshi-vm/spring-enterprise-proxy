@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record Artifact(@Id UUID id, String path, byte[] content, String contentType, LocalDateTime lastModified) {
+public record Artifact(@Id String id, String path, byte[] content, String contentType, LocalDateTime lastModified) {
 
 	Artifact(String path, byte[] content, String contentType, LocalDateTime lastModified) {
 		this(null, path, content, contentType, lastModified);
