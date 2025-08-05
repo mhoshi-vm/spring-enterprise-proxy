@@ -23,7 +23,7 @@ import java.time.Instant;
 import java.util.List;
 
 @RestController
-@RequestMapping("/spring-enterprise-proxy/") // All proxy requests will come through /maven/
+@RequestMapping("/spring-enterprise-proxy/")
 class SpringEnterpriseProxyController {
 
 	private static final Logger logger = LoggerFactory.getLogger(SpringEnterpriseProxyController.class);
@@ -46,8 +46,7 @@ class SpringEnterpriseProxyController {
 	 * artifactPath = "/org/springframework/spring-core/6.1.6/spring-core-6.1.6.jar"
 	 */
 	@GetMapping("{*artifactPath}")
-	ResponseEntity<Resource> proxyMavenArtifact(@PathVariable String artifactPath,
-			@AuthenticationPrincipal Jwt jwt) {
+	ResponseEntity<Resource> proxyMavenArtifact(@PathVariable String artifactPath, @AuthenticationPrincipal Jwt jwt) {
 		if (jwt != null) {
 			Instant expiration = jwt.getExpiresAt();
 			if (jwt != null && expiration != null && expiration.isBefore(Instant.now())) {

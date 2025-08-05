@@ -35,7 +35,7 @@ class ArtifactService {
 	private final ArtifactRepository artifactRepository;
 
 	ArtifactService(SpringEnterpriseProxyProperties config, RestClient.Builder restClientBuilder,
-					ArtifactRepository artifactRepository) {
+			ArtifactRepository artifactRepository) {
 		this.config = config;
 		this.artifactRepository = artifactRepository;
 

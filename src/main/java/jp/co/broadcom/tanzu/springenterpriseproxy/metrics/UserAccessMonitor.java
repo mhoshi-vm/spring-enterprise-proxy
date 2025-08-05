@@ -2,7 +2,6 @@ package jp.co.broadcom.tanzu.springenterpriseproxy.metrics;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.modulith.events.ApplicationModuleListener;
@@ -13,7 +12,7 @@ class UserAccessMonitor {
 
 	private static final Logger log = LoggerFactory.getLogger(UserAccessMonitor.class);
 
-	private static final String METRIC_NAME = "user.access.monitor";
+	private static final String METRIC_NAME = "spring.enterprise.user.access.monitor";
 
 	private final MeterRegistry meterRegistry;
 

@@ -32,7 +32,8 @@ class JwtExpirationMonitor {
 	 * @param jwtToken The JWT token string whose expiration is to be monitored, typically
 	 * sourced from a Spring property like `maven.proxy.remote-repo-password`.
 	 */
-	JwtExpirationMonitor(MeterRegistry meterRegistry, @Value("${spring.enterprise.proxy.remote-repo-password}") String jwtToken) {
+	JwtExpirationMonitor(MeterRegistry meterRegistry,
+			@Value("${spring.enterprise.proxy.remote-repo-password}") String jwtToken) {
 		this.objectMapper = new ObjectMapper();
 		this.meterRegistry = meterRegistry;
 		this.jwtToken = jwtToken;

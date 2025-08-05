@@ -120,13 +120,14 @@ class JwtExpirationMonitorTest {
 		String dummyJwt = "header." + Base64.getUrlEncoder().encodeToString("{}".getBytes()) + ".signature";
 		jwtExpirationMonitor = new JwtExpirationMonitor(meterRegistry, dummyJwt);
 
-		verify(meterRegistry, times(1)).gauge(eq("spring.enterprise.proxy.password.time.until.expiration.seconds"), any(), // Tags
-																								// are
-																								// captured
-																								// via
-																								// ArgumentCaptor
-																								// if
-																								// needed
+		verify(meterRegistry, times(1)).gauge(eq("spring.enterprise.proxy.password.time.until.expiration.seconds"),
+				any(), // Tags
+				// are
+				// captured
+				// via
+				// ArgumentCaptor
+				// if
+				// needed
 				eq(jwtExpirationMonitor), any(ToDoubleFunction.class) // The lambda
 																		// function
 		);
@@ -146,8 +147,8 @@ class JwtExpirationMonitorTest {
 
 		jwtExpirationMonitor = new JwtExpirationMonitor(meterRegistry, jwtToken);
 
-		verify(meterRegistry).gauge(eq("spring.enterprise.proxy.password.time.until.expiration.seconds"), any(), eq(jwtExpirationMonitor),
-				gaugeFunctionCaptor.capture());
+		verify(meterRegistry).gauge(eq("spring.enterprise.proxy.password.time.until.expiration.seconds"), any(),
+				eq(jwtExpirationMonitor), gaugeFunctionCaptor.capture());
 
 		// Get the captured function and invoke it with our monitor instance
 		ToDoubleFunction<JwtExpirationMonitor> gaugeFunction = gaugeFunctionCaptor.getValue();

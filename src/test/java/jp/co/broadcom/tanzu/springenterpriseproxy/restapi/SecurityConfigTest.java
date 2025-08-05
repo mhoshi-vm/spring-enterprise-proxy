@@ -49,15 +49,16 @@ class SecurityConfigTest {
 	@Test
 	void shouldDenyAccessToSecuredEndpointWithoutToken() throws Exception {
 		mockMvc.perform(get("/spring-enterprise-proxy/aaa")).andExpect(status().isUnauthorized()); // 401
-																					// Unauthorized
-																					// for
-																					// missing
-																					// token
-		mockMvc.perform(get("/spring-enterprise-proxy/org/aod/artifact/1.0.0/artifact.jar")).andExpect(status().isUnauthorized()); // 401
-																													// Unauthorized
-																													// for
-																													// missing
-																													// token
+		// Unauthorized
+		// for
+		// missing
+		// token
+		mockMvc.perform(get("/spring-enterprise-proxy/org/aod/artifact/1.0.0/artifact.jar"))
+			.andExpect(status().isUnauthorized()); // 401
+		// Unauthorized
+		// for
+		// missing
+		// token
 	}
 
 	@Test

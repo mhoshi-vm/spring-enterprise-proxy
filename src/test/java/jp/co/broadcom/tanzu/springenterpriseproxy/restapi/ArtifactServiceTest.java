@@ -33,7 +33,8 @@ class ArtifactServiceTest {
 	private final byte[] ARTIFACT_CONTENT = "some-jar-content".getBytes();
 
 	@Mock
-	private SpringEnterpriseProxyProperties springEnterpriseProxyProperties; // Mock configuration
+	private SpringEnterpriseProxyProperties springEnterpriseProxyProperties; // Mock
+																				// configuration
 
 	@Mock
 	private RestClient.Builder restClientBuilder; // Mock RestClient builder
@@ -52,12 +53,12 @@ class ArtifactServiceTest {
 		// Common setup for MavenProxyConfig
 		lenient().when(springEnterpriseProxyProperties.remoteRepoUrl()).thenReturn("http://remote.maven.org/maven2/");
 		lenient().when(springEnterpriseProxyProperties.remoteRepoUsername()).thenReturn(null); // No
-																					// auth
-																					// by
-																					// default
-																					// for
-																					// these
-																					// tests
+		// auth
+		// by
+		// default
+		// for
+		// these
+		// tests
 		lenient().when(springEnterpriseProxyProperties.remoteRepoPassword()).thenReturn(null);
 
 		// Common setup for RestClient builder
@@ -106,7 +107,8 @@ class ArtifactServiceTest {
 
 		// And: Remote call succeeds
 		ResponseEntity<byte[]> successResponse = new ResponseEntity<>(ARTIFACT_CONTENT, HttpStatus.OK);
-		when(restClient.get().uri(REMOTE_URL).headers(any()).retrieve().toEntity(byte[].class)).thenReturn(successResponse);
+		when(restClient.get().uri(REMOTE_URL).headers(any()).retrieve().toEntity(byte[].class))
+			.thenReturn(successResponse);
 
 		// Capture the argument passed to save
 		ArgumentCaptor<Artifact> artifactCaptor = ArgumentCaptor.forClass(Artifact.class);
@@ -120,7 +122,6 @@ class ArtifactServiceTest {
 		verify(restClient.get()).uri(REMOTE_URL); // Verify remote call was made
 		verify(restClient.get().uri(REMOTE_URL), times(2)).headers(any());
 		verify(restClient.get().uri(REMOTE_URL).headers(any()), times(2)).retrieve();
-
 
 		// Verify artifact was saved to database
 		verify(artifactRepository).save(artifactCaptor.capture());
@@ -187,7 +188,8 @@ class ArtifactServiceTest {
 
 		// And: Remote call succeeds
 		ResponseEntity<byte[]> successResponse = new ResponseEntity<>(ARTIFACT_CONTENT, HttpStatus.OK);
-		when(restClient.get().uri(REMOTE_URL).headers(any()).retrieve().toEntity(byte[].class)).thenReturn(successResponse);
+		when(restClient.get().uri(REMOTE_URL).headers(any()).retrieve().toEntity(byte[].class))
+			.thenReturn(successResponse);
 
 		// When
 		authService.retrieveArtifact(ARTIFACT_PATH);

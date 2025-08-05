@@ -77,7 +77,8 @@ class SpringEnterpriseProxyControllerTest {
 		// Configure the mock service to throw an IOException (simulating I/O issue)
 		Mockito.when(artifactService.retrieveArtifact(ARTIFACT_PATH)).thenThrow(new IOException("Disk full"));
 
-		mockMvc.perform(get("/spring-enterprise-proxy{artifactPath}", ARTIFACT_PATH)).andExpect(status().isInternalServerError());
+		mockMvc.perform(get("/spring-enterprise-proxy{artifactPath}", ARTIFACT_PATH))
+			.andExpect(status().isInternalServerError());
 
 		Mockito.verify(artifactService).retrieveArtifact(ARTIFACT_PATH);
 	}
@@ -90,7 +91,8 @@ class SpringEnterpriseProxyControllerTest {
 			.thenThrow(new RestClientResponseException("Internal Server Error",
 					HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error", null, null, null));
 
-		mockMvc.perform(get("/spring-enterprise-proxy{artifactPath}", ARTIFACT_PATH)).andExpect(status().isInternalServerError());
+		mockMvc.perform(get("/spring-enterprise-proxy{artifactPath}", ARTIFACT_PATH))
+			.andExpect(status().isInternalServerError());
 
 		Mockito.verify(artifactService).retrieveArtifact(ARTIFACT_PATH);
 	}
