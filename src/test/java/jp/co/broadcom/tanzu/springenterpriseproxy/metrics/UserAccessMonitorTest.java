@@ -3,12 +3,11 @@ package jp.co.broadcom.tanzu.springenterpriseproxy.metrics;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
-import jp.co.broadcom.tanzu.springenterpriseproxy.metrics.UserAccess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat; // Recommended for fluent assertions
+import static org.assertj.core.api.Assertions.assertThat;
 
 class UserAccessMonitorTest {
 
@@ -17,7 +16,7 @@ class UserAccessMonitorTest {
 	private MeterRegistry meterRegistry; // This will be our in-memory registry for
 											// testing
 
-	private static final String EVENT_COUNTER_NAME = "user.access.monitor";
+	private static final String EVENT_COUNTER_NAME = "spring.enterprise.user.access.monitor";
 
 	@BeforeEach
 	void setUp() {
@@ -58,7 +57,7 @@ class UserAccessMonitorTest {
 		UserAccess userAccess = new UserAccess(user, path);
 
 		userAccessMonitor.recordEvent(userAccess);
-		; // First call
+
 		userAccessMonitor.recordEvent(userAccess); // Second call
 		userAccessMonitor.recordEvent(userAccess); // Third call
 
@@ -76,7 +75,6 @@ class UserAccessMonitorTest {
 		// Given
 		String user1 = "userA";
 		String path1 = "/pathA";
-		UserAccess userAccess = new UserAccess(user1, path1);
 
 		String user2 = "userB";
 		String path2 = "/pathB";
