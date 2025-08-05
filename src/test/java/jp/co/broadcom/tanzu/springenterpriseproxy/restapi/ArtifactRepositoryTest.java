@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJdbcTest
-@Import(ArtifactConfig.class)
+@Import({ArtifactConfig.class, ArtifactRepositoryTestConfig.class})
 class ArtifactRepositoryTest {
 
 	private final String ARTIFACT_PATH = "/com/example/lib/2.0/lib-2.0.jar";
@@ -99,5 +99,4 @@ class ArtifactRepositoryTest {
 		assertThat(foundArtifact.get().content()).isEqualTo("different-content".getBytes());
 		assertThat(foundArtifact.get().contentType()).isEqualTo("text/plain");
 	}
-
 }

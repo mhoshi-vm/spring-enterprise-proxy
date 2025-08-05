@@ -30,11 +30,14 @@ import java.security.interfaces.RSAPublicKey;
 @EnableWebSecurity
 class SecurityConfig {
 
-	@Value("${spring.enterprise.proxy.jwt-public-key}")
 	RSAPublicKey key;
-
-	@Value("${spring.enterprise.proxy.jwt-private-key}")
 	RSAPrivateKey priv;
+
+	public SecurityConfig(@Value("${spring.enterprise.proxy.jwt-public-key}") RSAPublicKey key,
+						  @Value("${spring.enterprise.proxy.jwt-private-key}") RSAPrivateKey priv) {
+		this.key = key;
+		this.priv = priv;
+	}
 
 	@Bean
 	@Order(1)
