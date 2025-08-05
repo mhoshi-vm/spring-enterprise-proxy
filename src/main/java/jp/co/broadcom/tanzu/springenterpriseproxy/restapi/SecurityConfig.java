@@ -41,12 +41,23 @@ class SecurityConfig {
 
 	@Bean
 	@Order(1)
+	@ConditionalOnProperty(value = "spring.enterprise.proxy.oauth-enabled", havingValue = "true")
 	public SecurityFilterChain tokenFilterChain(HttpSecurity http) throws Exception {
 		http.securityMatcher("/token", "/oauth2/**", "/login/**")
 			.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
 			.httpBasic(Customizer.withDefaults())
 			.oauth2Login(Customizer.withDefaults())
 			.oauth2Client(Customizer.withDefaults());
+		return http.build();
+	}
+
+	@Bean
+	@Order(1)
+	@ConditionalOnProperty(value = "spring.enterprise.proxy.oauth-enabled", havingValue = "false", matchIfMissing = false)
+	public SecurityFilterChain tokenLocalFilterChain(HttpSecurity http) throws Exception {
+		http.securityMatcher("/token", "/oauth2/**", "/login/**")
+				.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+				.httpBasic(Customizer.withDefaults());
 		return http.build();
 	}
 
