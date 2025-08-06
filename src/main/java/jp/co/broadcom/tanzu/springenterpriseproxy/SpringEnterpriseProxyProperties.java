@@ -12,6 +12,7 @@ public record SpringEnterpriseProxyProperties(
 		String remoteRepoUrl,
 		String remoteRepoUsername,
 		String remoteRepoPassword,
+		Long expiry,
 		boolean oauthEnabled,
 		RSAPrivateKey jwtPrivateKey,
 		RSAPublicKey jwtPublicKey,

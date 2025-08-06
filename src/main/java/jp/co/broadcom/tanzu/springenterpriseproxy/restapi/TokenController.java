@@ -1,5 +1,6 @@
 package jp.co.broadcom.tanzu.springenterpriseproxy.restapi;
 
+import jp.co.broadcom.tanzu.springenterpriseproxy.SpringEnterpriseProxyProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,9 +21,9 @@ class TokenController {
 
 	Long expiry;
 
-	public TokenController(JwtEncoder encoder, @Value("${spring.enterprise.proxy.expiry:15552000}") Long expiry) {
+	public TokenController(JwtEncoder encoder, SpringEnterpriseProxyProperties springEnterpriseProxyProperties) {
 		this.encoder = encoder;
-		this.expiry = expiry;
+		this.expiry = springEnterpriseProxyProperties.expiry();
 	}
 
 	@GetMapping("/token")

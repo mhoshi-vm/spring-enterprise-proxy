@@ -6,7 +6,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import org.springframework.beans.factory.annotation.Value;
+import jp.co.broadcom.tanzu.springenterpriseproxy.SpringEnterpriseProxyProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,14 +31,13 @@ import java.security.interfaces.RSAPublicKey;
 class SecurityConfig {
 
 	RSAPublicKey key;
-	RSAPrivateKey priv;
+	RSAPrivateKey privKey;
 
-	public SecurityConfig(@Value("${spring.enterprise.proxy.jwt-public-key}") RSAPublicKey key,
-						  @Value("${spring.enterprise.proxy.jwt-private-key}") RSAPrivateKey priv) {
-		this.key = key;
-		this.priv = priv;
+	public SecurityConfig(SpringEnterpriseProxyProperties springEnterpriseProxyProperties) {
+		this.key = springEnterpriseProxyProperties.jwtPublicKey();
+		this.privKey = springEnterpriseProxyProperties.jwtPrivateKey();
 	}
-
+	
 	@Bean
 	@Order(1)
 	@ConditionalOnProperty(value = "spring.enterprise.proxy.oauth-enabled", havingValue = "true")
@@ -53,7 +52,7 @@ class SecurityConfig {
 
 	@Bean
 	@Order(1)
-	@ConditionalOnProperty(value = "spring.enterprise.proxy.oauth-enabled", havingValue = "false", matchIfMissing = false)
+	@ConditionalOnProperty(value = "spring.enterprise.proxy.oauth-enabled", havingValue = "false", matchIfMissing = true)
 	public SecurityFilterChain tokenLocalFilterChain(HttpSecurity http) throws Exception {
 		http.securityMatcher("/token", "/oauth2/**", "/login/**")
 				.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
@@ -100,7 +99,7 @@ class SecurityConfig {
 
 	@Bean
 	JwtEncoder jwtEncoder() {
-		JWK jwk = new RSAKey.Builder(this.key).privateKey(this.priv).build();
+		JWK jwk = new RSAKey.Builder(this.key).privateKey(this.privKey).build();
 		JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
 		return new NimbusJwtEncoder(jwks);
 	}

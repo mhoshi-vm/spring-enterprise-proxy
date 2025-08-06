@@ -21,6 +21,7 @@ import java.net.PasswordAuthentication;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -104,7 +105,7 @@ class ArtifactService {
 			if (response.getStatusCode() == HttpStatus.FOUND || response.getStatusCode() == HttpStatus.MOVED_PERMANENTLY
 					|| response.getStatusCode() == HttpStatus.SEE_OTHER) {
 
-				String redirectUrl = response.getHeaders().getFirst(HttpHeaders.LOCATION);
+				String redirectUrl = Objects.requireNonNull(response.getHeaders().getLocation()).toString();
 				if (redirectUrl != null) {
 					logger.debug("Received 302/303");
 
