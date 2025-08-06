@@ -4,7 +4,8 @@ import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.modulith.events.ApplicationModuleListener;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,7 +17,7 @@ class UserAccessMonitor {
 
 	private final MeterRegistry meterRegistry;
 
-	public UserAccessMonitor(MeterRegistry meterRegistry) {
+	UserAccessMonitor(MeterRegistry meterRegistry) {
 		this.meterRegistry = meterRegistry;
 	}
 
@@ -27,8 +28,9 @@ class UserAccessMonitor {
 	 * registered.
 	 * @param userAccess The path or resource associated with the event.
 	 */
-	@ApplicationModuleListener
-	public void recordEvent(UserAccess userAccess) {
+	@Async
+	@EventListener
+	void recordEvent(UserAccess userAccess) {
 		// Use Counter.builder to create or retrieve a counter-instance with specific
 		// tags.
 		// Micrometer ensures that if a counter with this exact name and tag combination
@@ -41,8 +43,8 @@ class UserAccessMonitor {
 		eventCounter.increment(); // Increment the counter for this specific user/path
 									// combination
 
-		log.info("Event recorded for user: '{}', path: '{}'. Current count for this combination: {}", userAccess.user(),
-				userAccess.path(), (long) eventCounter.count());
+		log.debug("Event recorded for user: '{}', path: '{}'. Current count for this combination: {}",
+				userAccess.user(), userAccess.path(), (long) eventCounter.count());
 	}
 
 }

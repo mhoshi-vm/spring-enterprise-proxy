@@ -59,7 +59,6 @@ class JwtExpirationMonitor {
 			String payloadJson = new String(Base64.getUrlDecoder().decode(parts[1]));
 			JsonNode rootNode = objectMapper.readTree(payloadJson);
 			if (rootNode.has("exp")) {
-				Long exp = rootNode.get("exp").asLong();
 				return rootNode.get("exp").asLong() - Instant.now().getEpochSecond();
 			}
 			return null; // 'exp' claim isn't found in the payload

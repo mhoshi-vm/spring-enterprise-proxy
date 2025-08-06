@@ -20,9 +20,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
-@Import(SecurityConfig.class)
-@TestPropertySource(properties = { "spring.security.oauth2.resourceserver.jwt.issuer-uri=https://test.issuer.com/realm",
-		"spring.enterprise.proxy.oauth-enabled=true" })
+@Import({ SecurityConfig.class, SecurityConfigTestConfig.class })
+@TestPropertySource(properties = { "spring.enterprise.proxy.oauth-enabled=true", })
 class SecurityConfigTest {
 
 	@Autowired

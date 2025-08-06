@@ -8,6 +8,7 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import jp.co.broadcom.tanzu.springenterpriseproxy.SpringEnterpriseProxyProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -34,7 +35,7 @@ class SecurityConfig {
 
 	RSAPrivateKey privKey;
 
-	public SecurityConfig(SpringEnterpriseProxyProperties springEnterpriseProxyProperties) {
+	SecurityConfig(SpringEnterpriseProxyProperties springEnterpriseProxyProperties) {
 		this.key = springEnterpriseProxyProperties.jwtPublicKey();
 		this.privKey = springEnterpriseProxyProperties.jwtPrivateKey();
 	}
@@ -42,7 +43,7 @@ class SecurityConfig {
 	@Bean
 	@Order(1)
 	@ConditionalOnProperty(value = "spring.enterprise.proxy.oauth-enabled", havingValue = "true")
-	public SecurityFilterChain tokenFilterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain tokenFilterChain(HttpSecurity http) throws Exception {
 		http.securityMatcher("/token", "/oauth2/**", "/login/**")
 			.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
 			.httpBasic(Customizer.withDefaults())
@@ -55,7 +56,7 @@ class SecurityConfig {
 	@Order(1)
 	@ConditionalOnProperty(value = "spring.enterprise.proxy.oauth-enabled", havingValue = "false",
 			matchIfMissing = true)
-	public SecurityFilterChain tokenLocalFilterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain tokenLocalFilterChain(HttpSecurity http) throws Exception {
 		http.securityMatcher("/token", "/oauth2/**", "/login/**")
 			.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
 			.httpBasic(Customizer.withDefaults());
@@ -64,8 +65,22 @@ class SecurityConfig {
 
 	@Bean
 	@Order(2)
-	public SecurityFilterChain actuatorFilterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain actuatorFilterChain(HttpSecurity http) throws Exception {
 		http.securityMatcher("/actuator/**").authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
+		return http.build();
+	}
+
+	@Bean
+	@Order(3)
+	@ConditionalOnProperty(value = "spring.h2.console.enabled", havingValue = "true")
+	public SecurityFilterChain h2FilterChain(HttpSecurity http) throws Exception {
+
+		http.securityMatcher(PathRequest.toH2Console())
+			.csrf(csrf -> csrf.ignoringRequestMatchers(PathRequest.toH2Console()))
+			.authorizeHttpRequests(
+					auth -> auth.requestMatchers(PathRequest.toH2Console()).permitAll().anyRequest().authenticated())
+			.headers(headers -> headers.frameOptions().sameOrigin());
+
 		return http.build();
 	}
 
