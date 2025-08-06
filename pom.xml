@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>jp.co.broadcom.tanzu</groupId>
-	<artifactId>mvn-proxy-w-token</artifactId>
+	<artifactId>spring-enterprise-proxy</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>mvn-proxy-w-token</name>
+	<name>spring-enterprise-proxy</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
