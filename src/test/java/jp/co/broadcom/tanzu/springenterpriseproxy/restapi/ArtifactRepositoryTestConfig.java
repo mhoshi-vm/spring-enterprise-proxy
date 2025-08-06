@@ -14,18 +14,23 @@ class ArtifactRepositoryTestConfig {
 	@TestComponent
 	@ConfigurationPropertiesBinding
 	static class MyPrivateKeyConverter implements Converter<String, RSAPrivateKey> {
+
 		@Override
 		public RSAPrivateKey convert(String from) {
 			return null;
 		}
+
 	}
 
 	@TestComponent
 	@ConfigurationPropertiesBinding
 	static class MyPublicKeyConverter implements Converter<String, RSAPublicKey> {
+
 		@Override
 		public RSAPublicKey convert(String from) {
 			return null;
 		}
+
 	}
+
 }

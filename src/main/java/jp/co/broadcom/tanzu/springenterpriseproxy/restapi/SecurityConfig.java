@@ -31,13 +31,14 @@ import java.security.interfaces.RSAPublicKey;
 class SecurityConfig {
 
 	RSAPublicKey key;
+
 	RSAPrivateKey privKey;
 
 	public SecurityConfig(SpringEnterpriseProxyProperties springEnterpriseProxyProperties) {
 		this.key = springEnterpriseProxyProperties.jwtPublicKey();
 		this.privKey = springEnterpriseProxyProperties.jwtPrivateKey();
 	}
-	
+
 	@Bean
 	@Order(1)
 	@ConditionalOnProperty(value = "spring.enterprise.proxy.oauth-enabled", havingValue = "true")
@@ -52,11 +53,12 @@ class SecurityConfig {
 
 	@Bean
 	@Order(1)
-	@ConditionalOnProperty(value = "spring.enterprise.proxy.oauth-enabled", havingValue = "false", matchIfMissing = true)
+	@ConditionalOnProperty(value = "spring.enterprise.proxy.oauth-enabled", havingValue = "false",
+			matchIfMissing = true)
 	public SecurityFilterChain tokenLocalFilterChain(HttpSecurity http) throws Exception {
 		http.securityMatcher("/token", "/oauth2/**", "/login/**")
-				.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
-				.httpBasic(Customizer.withDefaults());
+			.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+			.httpBasic(Customizer.withDefaults());
 		return http.build();
 	}
 

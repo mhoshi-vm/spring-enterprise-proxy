@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.relational.core.conversion.DbActionExecutionException;
 
@@ -17,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJdbcTest
-@Import({ArtifactConfig.class, TestcontainersConfiguration.class, ArtifactRepositoryTestConfig.class})
-class ArtifactRepositoryTestConatinersTest {
+@Import({ ArtifactConfig.class, TestcontainersConfiguration.class, ArtifactRepositoryTestConfig.class })
+class ArtifactRepositoryTestContainersTest {
 
 	private final String ARTIFACT_PATH = "/com/example/lib/2.0/lib-2.0.jar";
 
@@ -89,8 +88,8 @@ class ArtifactRepositoryTestConatinersTest {
 		artifactRepository.save(artifact);
 
 		// Save another artifact with the same path but with id
-		Artifact duplicateArtifact = new Artifact(UUID.nameUUIDFromBytes(ARTIFACT_PATH.getBytes()).toString(), ARTIFACT_PATH,
-				"different-content".getBytes(), "text/plain", LocalDateTime.now());
+		Artifact duplicateArtifact = new Artifact(UUID.nameUUIDFromBytes(ARTIFACT_PATH.getBytes()).toString(),
+				ARTIFACT_PATH, "different-content".getBytes(), "text/plain", LocalDateTime.now());
 		artifactRepository.save(duplicateArtifact);
 
 		// Clarify contents has been updated
@@ -101,4 +100,5 @@ class ArtifactRepositoryTestConatinersTest {
 		assertThat(foundArtifact.get().content()).isEqualTo("different-content".getBytes());
 		assertThat(foundArtifact.get().contentType()).isEqualTo("text/plain");
 	}
+
 }
