@@ -18,5 +18,4 @@ public record SpringEnterpriseProxyProperties(
 		RSAPublicKey jwtPublicKey,
 		boolean statsdMetricsEnabled
 		//@formatter:on
-) {
-}
+) {}
